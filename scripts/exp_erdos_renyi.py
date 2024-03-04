@@ -54,7 +54,7 @@ def run_exp(n_list, p_list, attackers, n_exp, full_reconstruct=False):
 
 if __name__ == '__main__':
     # 1 attacker
-    n_exp = 2
+    n_exp = 20
     n_list = [20,40,60,80,100]
     #n_list = [20,40,60,80,100]
     p_list =  [0.15,0.2,0.25,0.30]
