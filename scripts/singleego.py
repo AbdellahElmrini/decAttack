@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import matplotlib.cm
 import matplotlib.colors as colors
 from random import seed
+import sys
+sys.path.append("src")
 from consensus import *
 
 matplotlib.rcParams['pdf.fonttype'] = 42
