@@ -1,0 +1,7 @@
+numpy
+networkx==3.2.1
+scipy==1.11.4
+matplotlib
+torch
+torchvision 
+scikit-learn
