@@ -104,12 +104,12 @@ class ReconstructOptim():
         d = v[0].shape[0]
         W_TA = self.Wt[self.n_attackers:, :self.n_attackers]
         W_TT = self.Wt[self.n_attackers:, self.n_attackers:]
-        pW_TT = np.identity(n_targets, dtype = np.float32)
+        pW_TT = np.identity(n_targets, dtype = np.float64)
         new_v = []
-        B_t = np.zeros((n_targets, d), dtype = np.float32)
+        B_t = np.zeros((n_targets, d), dtype = np.float64)
         for it in range(self.n_iter):
             X_A_t = X_A[it*self.n_attackers:(it+1)*self.n_attackers]
-            pW_TT = W_TT @ pW_TT + np.identity((n_targets), dtype = np.float32)
+            pW_TT = W_TT @ pW_TT + np.identity((n_targets), dtype = np.float64)
             theta_T_t = v[it*n_neighbors:(it+1)*n_neighbors]
             new_v.extend(theta_T_t-B_t[neighbors-self.n_attackers])
             B_t = W_TT @ B_t + W_TA @ X_A_t
@@ -143,14 +143,15 @@ class ReconstructOptim():
         d = v[0].shape[0]
         W_TA = self.Wt[self.n_attackers:, :self.n_attackers]
         W_TT = self.Wt[self.n_attackers:, self.n_attackers:]
-        pW_TT = np.identity(n_targets, dtype = np.float32)
+        #pW_TT = np.identity(n_targets, dtype = np.float32)
         new_v = []
-        B_t = np.zeros((n_targets, d), dtype = np.float32)
+        B_t = np.zeros((n_targets, d), dtype = np.float64)
         for it in range(self.n_iter):
             X_A_t = X_A[it*self.n_attackers:(it+1)*self.n_attackers]
-            pW_TT = W_TT @ pW_TT + np.identity((n_targets), dtype = np.float32)
+            #pW_TT = W_TT @ pW_TT + np.identity((n_targets), dtype = np.float64)
             theta_T_t = v[it*n_neighbors:(it+1)*n_neighbors]
             new_v.extend(theta_T_t-B_t[neighbors-self.n_attackers])
+
             B_t = W_TT @ B_t + W_TA @ X_A_t
 
         v = np.array(new_v)

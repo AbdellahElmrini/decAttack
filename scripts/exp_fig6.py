@@ -43,7 +43,7 @@ model = Model(FC_Model(3072, 10), invert_gradient_FC_Model, setup)
 
 
 
-n_exp = 100
+n_exp = 30
 np.random.seed(0)
 seeds = np.random.randint(0, 10000, n_exp)
 psnrs = []

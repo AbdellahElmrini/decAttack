@@ -278,7 +278,7 @@ def system_startup(args=None, defs=None):
     """
     # Choose GPU device and print status information:
     device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
-    setup = dict(device=device, dtype=torch.float) 
+    setup = dict(device=device, dtype=torch.double) 
     print(f'CPUs: {torch.get_num_threads()}, GPUs: {torch.cuda.device_count()} on {socket.gethostname()}.')
     if args is not None:
         print(args)

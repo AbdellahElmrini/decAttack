@@ -41,6 +41,7 @@ for j in range(n-1):
 
 target_inputs = torch.cat(D.data)[1:] 
 
-plot_tensors(target_inputs, multiline=False, save=True, save_folder="experiments/gd", suffix="_input", row_size=15)
 
-plot_tensors(torch.cat(outputs), title = 'outputs', multiline=False, save=True, save_folder="experiments/gd", suffix="_output", row_size=15)
+plot_tensors(target_inputs, multiline=False, save=True, save_folder="outputs/", suffix="_input", row_size=15)
+
+plot_tensors(torch.cat(outputs), title = 'outputs', multiline=False, save=True, save_folder="outputs/", suffix="_output", row_size=15)

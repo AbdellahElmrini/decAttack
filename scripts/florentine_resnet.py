@@ -5,20 +5,21 @@ import warnings
 warnings.filterwarnings("ignore")
 import sys
 sys.path.append("src")
-
+sys.path.append("invertinggradients")
 from decentralized import *
 from graphs import *
 from models import *
 from utils import *
 from metrics import *
 from consensus import *
+from resnet_model import *
 from tqdm import tqdm, trange
-
+import torch
 import matplotlib 
 matplotlib.rcParams['pdf.fonttype'] = 42
 
 matplotlib.rcParams['ps.fonttype'] = 42
-
+torch.set_default_dtype(torch.float64)
 
 from PIL import Image, ImageOps
 
@@ -27,7 +28,7 @@ setup = system_startup()
 
 G=nx.florentine_families_graph()
 G = nx.convert_node_labels_to_integers(G)
-G = nx.relabel_nodes(G, {0:5, 5:0})
+#G = nx.relabel_nodes(G, {0:5, 5:0})
 N = G.number_of_nodes()
 n_iter = 7
 attackers = [0]
@@ -35,32 +36,73 @@ W = LaplacianGossipMatrix(G)
 Wt = torch.tensor(W).float()
 R = ReconstructOptim(G, n_iter, attackers)
 
-np.linalg.matrix_rank(R.target_knowledge_matrix)==N-1
+
+# Inversion parameters
+config = dict(signed=True,
+                    boxed=True,
+                    cost_fn='sim',
+                    indices='def',
+                    weights='equal',
+                    lr=0.1,
+                    optim='adam',
+                    restarts=1,
+                    max_iterations=500,
+                    total_variation=1e-1,
+                    init='randn',
+                    filter='none',
+                    lr_decay=True,
+                    scoring_choice='loss')
 
 # Defining the model
 torch.manual_seed(0)
-model = Model(FC_Model(3072, 10), invert_gradient_FC_Model, setup)
+cnn_model = CNN(10)
+
+model = Model(cnn_model, invert_gradient_MNIST, flatten = False, setup = setup)
 
 # Defining and running the decentralized protocol
-D = Decentralized(R, model, setup, targets_only = True)
+D = Decentralized(R, model, setup, data_name= "MNIST",  targets_only = True)
+
 
 lr = 1e-5
 D.run(lr);
 
 x_hat = R.reconstruct_LS_target_only(D.sent_params, D.attackers_params)
 
+
+print('Absolute errors')
+print(square_loss( D.gradients[1:N], -1/lr*torch.tensor(x_hat) ))
+print('Relative errors')
+print(relative_square_loss(D.gradients[1:N] , -1/lr*torch.tensor(x_hat)))
+
+save_folder = "outputs/"
+
 outputs = []
-for j in range(len(x_hat)):
-    outputs.append(model.invert( x_hat[j], lr))
+for j in range(N-1): #
+    ground_truth = D.data[j+1]
+    output, stats = model.invert(x_hat[j], lr, D.labels[j+1], D.models[j+1].pytorch_model, config)
+    outputs.append(output)
+    test_mse = (output.detach() - ground_truth).pow(2).mean().item()
+    feat_mse = (D.models[j+1](output.detach())- D.models[j+1](ground_truth)).pow(2).mean().item()
+
+    test_psnr = psnr(output, ground_truth, factor=1.0, batched = True)
+
+    print(f"Rec. loss: {stats['opt']:2.4f} | MSE: {test_mse:2.4f} "
+          f"| PSNR: {test_psnr:4.2f} | FMSE: {feat_mse:2.4e} |");
+
+
+    plot_tensors(output, True, save_folder = save_folder, suffix = str(j), data ='mnist')
+
 
 target_inputs = torch.cat(D.data)[1:] 
-plot_tensors(target_inputs, title = 'inputs')
 
-plot_tensors(torch.cat(outputs), title = 'outputs')
+
+plot_tensors(torch.cat(outputs), True, save_folder = save_folder, suffix = '_outputs', data ='mnist', multiline = False)
+plot_tensors(target_inputs, save= True, save_folder =save_folder, data = 'mnist', suffix = '_inputs')
 
 
 
 exit()
+
 #### For the drawing 
 
 np.random.seed(0)

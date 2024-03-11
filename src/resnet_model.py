@@ -7,8 +7,8 @@ import torchvision
 import sys 
 #import pathlib
 #path_inv = str(pathlib.Path().absolute()) + "/invertinggradients"
-sys.path.append("../src")
-sys.path.append("../invertinggradients")
+sys.path.append("src")
+sys.path.append("invertinggradients")
 import inversefed
 from inversefed import consts
 from models import Model

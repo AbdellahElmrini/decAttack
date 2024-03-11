@@ -11,6 +11,7 @@ from constants import *
 from graphs import *
 from models import *
 from datasets import *
+import torch
 torch.set_default_dtype(torch.float64)
 
 class Decentralized():
@@ -63,6 +64,7 @@ class Decentralized():
             img, label = trainset[idx]
             labels.append(torch.as_tensor((label,), device=self.setup['device']))
             ground_truth = img.to(**self.setup).unsqueeze(0)
+
             data.append(ground_truth)
         self.data = data
         self.labels = labels

@@ -12,7 +12,7 @@ class Model():
     """
     def __init__(self, pytorch_model, invert_gradient, setup, flatten = True):
         self.setup = setup
-        self.pytorch_model = pytorch_model.to(**self.setup)
+        self.pytorch_model = pytorch_model.to(**self.setup).double()
         self.invert_gradient = invert_gradient
         self.loss_fn = torch.nn.CrossEntropyLoss(weight=None, size_average=None, ignore_index=-100,
                                                             reduce=None, reduction='mean')
