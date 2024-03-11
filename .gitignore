@@ -161,7 +161,7 @@ cython_debug/
 .DS_Store
 trash.ipynb
 Untitled.ipynb
-data/
+#data/
 images/
 *.pickle
 
