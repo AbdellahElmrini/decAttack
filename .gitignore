@@ -173,3 +173,4 @@ scripts/trash/
 
 src/trash/
 outputs/*
+!outputs/.placeholder
