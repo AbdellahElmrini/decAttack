@@ -28,6 +28,7 @@ def run_exp(n_list, p_list, attackers, n_exp, full_reconstruct=False):
             invertible_graphs = 0
             exp_count = 0
             while exp_count < n_exp:
+                
                 G = nx.fast_gnp_random_graph(n, n_list[0]*p / n)
                 if nx.is_connected(G):
                     R = Reconstruct(G, int(min(n*p/len(attackers),n/2)), attackers)
@@ -39,13 +40,14 @@ def run_exp(n_list, p_list, attackers, n_exp, full_reconstruct=False):
                         try:
                             U, x, x_hat = R.reconstruction()
                             invertible_graphs += np.mean(np.where(np.isnan(x_hat), 0, 1))
-                            exp_count += 1
+                            
                             res[n_idx, p_idx, exp_count] = np.mean(np.where(np.isnan(x_hat), 0, 1))
+                            exp_count += 1
                         except KeyboardInterrupt:
                             raise 
-                        except:
-                            print("invertion failed")
-                            continue
+                        except Exception as e :
+                            #print("invertion failed")
+                            raise e
                         
 
 

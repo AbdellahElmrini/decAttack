@@ -24,10 +24,10 @@ setup = system_startup()
 print(setup)
 
 # Defining the attack parameters
-n = 31
+n = 11
 G = line_graph(n)
 N = G.number_of_nodes()
-n_iter = 31
+n_iter = 11
 attackers = [0]
 W = LaplacianGossipMatrix(G)
 Wt = torch.tensor(W).float()

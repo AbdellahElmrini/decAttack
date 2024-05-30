@@ -155,7 +155,7 @@ class Reconstruct():
             if count_non_zero_elements(U[i]) == 1:
                 j = first_nonzero(U[i])
                 x_hat[j] = z[i]/U[i][j]
-                assert np.isclose(x[j], x_hat[j], atol=.05), print(x_hat[j], z[i], U[i][j], x[j])
+                assert np.isclose(x[j], x_hat[j], atol=.05), str(x_hat[j])+' ' + str(z[i]) +' ' + str(U[i][j]) +' ' + str(x[j])
 
         return U, x, x_hat
 
