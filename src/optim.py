@@ -154,8 +154,8 @@ class ReconstructOptim():
 
             B_t = W_TT @ B_t + W_TA @ X_A_t
 
-        v = np.array(new_v)
-
+        v = torch.stack(new_v).numpy()
+        
         try:
             return np.linalg.lstsq(self.target_knowledge_matrix, v)[0]
         except Exception as e:

@@ -81,5 +81,5 @@ ax2.errorbar( range(1,n-1), torch.tensor(rss).mean(0)[:-1], yerr = torch.tensor(
 ax2.tick_params(axis='y', labelcolor=color)
 
 fig.tight_layout()  
-plt.savefig("experiments/gd/line_graph_psnr_rss.pdf", format="pdf")
+plt.savefig("outputs/gd/line_graph_psnr_rss.pdf", format="pdf")
 plt.show()

@@ -10,7 +10,7 @@ from utils import *
 from constants import *
 from graphs import *
 from models import *
-from datasets import *
+from data import *
 import torch
 torch.set_default_dtype(torch.float64)
 

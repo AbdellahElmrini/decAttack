@@ -45,7 +45,7 @@ config = dict(signed=True,
                     lr=0.1,
                     optim='adam',
                     restarts=1,
-                    max_iterations=20,
+                    max_iterations=2000,
                     total_variation=1e-1,
                     init='randn',
                     filter='none',
@@ -89,7 +89,8 @@ print(relative_square_loss(D.gradients[1:N] , -1/lr*torch.tensor(x_hat)))
 
 
 
-save_folder = f'experiments/gd'
+save_folder = f'outputs/gd'
+os.makedirs(save_folder, exist_ok = True)
 
 outputs = []
 for j in range(N-1): #
