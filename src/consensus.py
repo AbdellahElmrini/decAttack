@@ -97,7 +97,7 @@ class Reconstruct():
 
 
         P1, L1, U1 = sp.linalg.lu(self.knowledge_matrix) # U is the Row Echelon Form of the knowledge matrix
-        print('the know')
+        print('the knowledge matrix')
         print(self.knowledge_matrix)
 
 
@@ -138,7 +138,7 @@ class Reconstruct():
     def reconstruction(self, X=None):
         T, R, U = compute_rref(self.knowledge_matrix, use_fractions=self.use_fractions)
         #U = U.astype(float)
-        print(U.shape)
+
         U[np.abs(U) < 1e-6] = 0
         T[np.abs(T) < 1e-6] = 0
 
@@ -260,8 +260,6 @@ class Reconstruct():
 
         # Figure 1: Graph with X values
         filename_1 = "original_values_graph.pdf" if prefix == '' else prefix + "_original_values_graph.pdf"
-        print(self.G.nodes())
-        print(len(x), x)
         draw_graph({n: f"{x[n]:.2f}" for n in self.G.nodes()}, "Graph with Original Values (X)", filename_1)
 
         # Figure 2: Graph with x_hat values

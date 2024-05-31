@@ -46,8 +46,8 @@ def run_exp(n_list, p_list, attackers, n_exp, full_reconstruct=False):
                         except KeyboardInterrupt:
                             raise 
                         except Exception as e :
-                            #print("invertion failed")
-                            raise e
+                            #print("skipping an unstable reconstruction")
+                            continue
                         
 
 
@@ -58,9 +58,7 @@ if __name__ == '__main__':
     # 1 attacker
     n_exp = 20
     n_list = [20,40,60,80,100]
-    #n_list = [20,40,60,80,100]
     p_list =  [0.15,0.2,0.25,0.30]
-    #p_list = np.array([0.04, 0.06, 0.08, 0.1 ])
     attackers = [0]
     full_reconstruct = False
     res11 = run_exp(n_list, p_list, attackers, n_exp, full_reconstruct )
@@ -72,13 +70,12 @@ if __name__ == '__main__':
     print("Experiment finished")
 
     # 3 attackers
-    #p_list = np.array([0.08, 0.11, 0.14, 0.17 ])
     attackers = [0,1,2]
     res33 = run_exp(n_list, p_list, attackers, n_exp, full_reconstruct )
     print("Experiment finished, plotting .. ")
     
 
-    # Assume res11, res22, res33 are the results from run_exp for 1, 2, and 3 attackers respectively
+    # res11, res22, res33 are the results from run_exp for 1, 2, and 3 attackers respectively
     # Plotting
     fig, ax = plt.subplots(1, 3, figsize=(18, 6))
     x_ticks = np.array(p_list) * n_list[0]
