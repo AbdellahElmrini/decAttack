@@ -3,6 +3,19 @@
 
 This repository contains the Python implementation of the paper [Privacy Attacks in Decentralized Learning](https://arxiv.org/abs/2402.10001).
 
+Please cite this paper if you use our code.
+
+@inproceedings{decattack,
+    author = {Mrini,  Abdellah El and Cyffers,  Edwige and Bellet,  Aurélien},
+  keywords = {Machine Learning (cs.LG),  Cryptography and Security (cs.CR),  FOS: Computer and information sciences,  FOS: Computer and information sciences},
+  title = {Privacy Attacks in Decentralized Learning},
+  booktitle={International Conference on Machine Learning},
+  year={2024},
+  organization={PMLR}
+}
+
+
+
 ## Usage
 
 To clone the repository, use the following command :
